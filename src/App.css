@@ -16,14 +16,15 @@
   --headerTextColor: #ffffff;
 }
 
-@media (prefers-color-scheme: dark) {
+/* TODO: uncomment when testing dark mode */
+/* @media (prefers-color-scheme: dark) {
   :root {
     --bgColor: #422142;
     --fgColor: #f0c4f0;
     --fgColorLighter: rgba(210, 169, 210, 0.5);
     --headerTextColor: var(--fgColor);
   }
-}
+} */
 
 body {
   font-family: 'Ubuntu', sans-serif;
@@ -36,4 +37,151 @@ h4,
 h5,
 h6 {
   font-family: 'DynaPuff', cursive;
+}
+
+button {
+  cursor: pointer;
+  transition-duration: 300ms;
+}
+
+.row {
+  width: 100%;
+  max-width: 1067px;
+  margin: 0 auto;
+}
+
+/*
+
+Header
+
+*/
+
+header {
+  position: fixed;
+  width: 100%;
+  color: var(--headerTextColor);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-image: linear-gradient(
+    to bottom,
+    var(--purpleColorLighter),
+    var(--blueColorDarker)
+  );
+  padding: 0 32px;
+  height: 60px;
+}
+
+/*
+
+Footer
+
+*/
+
+footer {
+  position: fixed;
+  bottom: 0px;
+  height: 12px;
+  width: 100%;
+  background-color: var(--purpleColorLighter);
+}
+
+/*
+
+Home
+
+*/
+
+.Home__container {
+  padding: 100px 32px 40px 32px;
+}
+
+.home__title {
+  font-size: 2.2rem;
+  color: var(--fgColor);
+  margin-bottom: 24px;
+}
+
+/*
+
+SampleCard
+
+*/
+
+.SampleCard__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  border: 2px solid var(--fgColor);
+  border-bottom-width: 6px;
+  margin-bottom: 36px;
+}
+
+.sample-card__title {
+  font-weight: 400;
+  /* letter-spacing: 1.px; */
+  font-size: 1.7rem;
+  margin-bottom: 16px;
+  color: var(--fgColor);
+}
+
+.sample-card__date {
+  font-weight: 700;
+  color: var(--fgColorLighter);
+}
+
+.sample-card__button--wrapper {
+  display: flex;
+  gap: 8px;
+}
+
+.button--outlined {
+  padding: 8px 10px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--fgColor);
+  border: 3px solid var(--fgColor);
+  background-color: var(--bgColor);
+}
+
+.button--outlined:hover {
+  color: var(--bgColor);
+  border: 3px solid var(--purpleColorLighter);
+  background-color: var(--purpleColorLighter);
+}
+
+.button--solid {
+  padding: 8px 10px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--bgColor);
+  border: 3px solid var(--fgColor);
+  background-color: var(--fgColor);
+}
+
+.button--solid:hover {
+  border: 3px solid var(--purpleColorLighter);
+  background-color: var(--purpleColorLighter);
+}
+
+.button--shared {
+  color: var(--fgColorLighter);
+  border: 3px solid var(--fgColorLighter);
+  background-color: var(--bgColor);
+}
+
+/*
+
+CreateCard
+
+*/
+
+.CreateCard__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 32px;
+  border: 2px solid var(--fgColorLighter);
+  border-bottom-width: 6px;
 }
