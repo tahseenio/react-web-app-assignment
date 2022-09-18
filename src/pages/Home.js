@@ -9,7 +9,7 @@ const Home = () => {
         <h1 className='home__title'>Samples You've Created</h1>
         <div className='Cards'>
           <SampleCard title={'Hellz Wind Staff'} />
-          <SampleCard title={'C.R.E.A.M'} isShared={true} />
+          <SampleCard title={'C.R.E.A.M'} isInitiallyShared={true} />
           <SampleCard title={'A Better Tommorow'} />
         </div>
         <CreateCard />
