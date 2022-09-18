@@ -7,9 +7,14 @@ const useFetchData = () => {
 
   useEffect(() => {
     const fetchSamples = async () => {
-      const promise = await fetch(READ_SAMPLES_LINK);
-      const data = await promise.json();
-      setSamples(data.samples);
+      try {
+        const promise = await fetch(READ_SAMPLES_LINK);
+        const data = await promise.json();
+        setSamples(data.samples);
+      } catch (err) {
+        console.log(err);
+        setSamples([]);
+      }
     };
     fetchSamples();
   }, []);
