@@ -1,8 +1,10 @@
-import { useState } from 'react';
+// TODO: review all commented code
+
+// import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const SampleCard = ({ title, isInitiallyShared = false }) => {
-  const [isShared, setIsShared] = useState(isInitiallyShared);
+  // const [isShared, setIsShared] = useState(isInitiallyShared);
 
   const date = new Date();
 
@@ -38,7 +40,7 @@ const SampleCard = ({ title, isInitiallyShared = false }) => {
         <Link to={`/share/${title}`}>
           <button
             className='button--outlined'
-            onClick={() => setIsShared(true)}
+            // onClick={() => setIsShared(true)}
           >
             Share
           </button>

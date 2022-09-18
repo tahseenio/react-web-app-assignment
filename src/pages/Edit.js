@@ -1,3 +1,5 @@
+// TODO: make music buttons actually click and work
+
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import MusicRow from '../components/ui/MusicRow';

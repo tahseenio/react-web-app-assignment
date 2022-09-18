@@ -1,3 +1,5 @@
+// TODO: All preview buttons should change to "Stop Previewing when clicked"
+
 import React from 'react';
 import CreateCard from '../components/CreateCard';
 import SampleCard from '../components/SampleCard';

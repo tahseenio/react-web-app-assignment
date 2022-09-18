@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;700&family=Ubuntu:wght@400;700&display=swap');
+/* TODO: FIX RESPONSIVENESS OF SHARE PAGE. THE TABLE AREA IS JUST SCUFFED */
 
 * {
   padding: 0;
@@ -17,14 +17,14 @@
 }
 
 /* TODO: uncomment when testing dark mode */
-/* @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
   :root {
     --bgColor: #422142;
     --fgColor: #f0c4f0;
     --fgColorLighter: rgba(210, 169, 210, 0.5);
     --headerTextColor: var(--fgColor);
   }
-} */
+}
 
 body {
   font-family: 'Ubuntu', sans-serif;
@@ -77,12 +77,13 @@ header {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  padding: 0 8px;
+  padding: 0 12px;
 }
 
 .arrowImg {
   cursor: pointer;
-  filter: invert(1);
+  filter: invert(84%) sepia(16%) saturate(1705%) hue-rotate(212deg)
+    brightness(112%) contrast(88%) brightness(82%) contrast(120%);
   transform: rotate(180deg);
   height: 30px;
   width: 30px;
@@ -134,20 +135,20 @@ SampleCard
   border: 2px solid var(--fgColor);
   border-bottom-width: 6px;
   margin-bottom: 36px;
-  gap: 50px;
 }
 
 .sample-card__title {
   font-weight: 400;
-  /* letter-spacing: 1.px; */
   font-size: 1.7rem;
   margin-bottom: 16px;
   color: var(--fgColor);
+  margin-right: 8px;
 }
 
 .sample-card__date {
   font-weight: 700;
   color: var(--fgColorLighter);
+  margin-right: 8px;
 }
 
 .sample-card__button--wrapper {
@@ -165,7 +166,7 @@ SampleCard
 }
 
 .button--outlined:hover {
-  color: var(--bgColor);
+  color: var(--headerTextColor);
   border: 3px solid var(--purpleColorLighter);
   background-color: var(--purpleColorLighter);
 }
@@ -239,6 +240,7 @@ Editing Page
   align-items: center;
   margin-bottom: 12px;
   gap: 12px;
+  width: 100%;
 }
 
 .share__row {
@@ -246,7 +248,6 @@ Editing Page
   align-items: center;
   justify-content: space-between;
   margin-bottom: 12px;
-  gap: 12px;
 }
 
 .share__list {
@@ -261,13 +262,22 @@ Editing Page
   border-bottom-width: 6px;
 }
 
-.edit__row--title,
-.share__row--title {
+.edit__row--title {
   text-align: right;
+  margin-left: 8px;
+  min-width: 40px;
+  font-weight: 700;
+  color: var(--fgColor);
+}
+
+.share__row--title {
+  width: 50%;
+  text-align: left;
   margin-left: 20px;
   min-width: 40px;
   font-weight: 700;
   color: var(--fgColor);
+  word-break: break-all;
 }
 
 .edit__list {
@@ -275,14 +285,18 @@ Editing Page
   font-weight: 500;
   font-size: 1.1rem;
   display: flex;
+  flex-grow: 1;
   list-style-type: none;
-  width: 100%;
+  /* width: 90%; */
   height: 50px;
   border: 2px solid var(--fgColor);
   border-bottom-width: 6px;
 }
 
 .edit__listitem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 12px;
   width: calc(100% / 4);
   text-align: center;
@@ -290,26 +304,46 @@ Editing Page
   cursor: pointer;
 }
 
+.edit__listitem:hover,
+.share__listitem:hover {
+  background-color: var(--fgColorLighter);
+  color: var(--fgColor);
+}
+
 .edit__listitem--active,
 .edit__musicitem--active,
 .share__listitem--active {
   background-color: var(--fgColor);
-  color: var(--headerTextColor);
+  color: var(--bgColor);
+}
+
+.edit__listitem--active:hover,
+.edit__musicitem--active:hover,
+.share__listitem--active:hover {
+  background-color: var(--fgColor) !important;
+  color: var(--bgColor) !important;
 }
 
 .edit__listitem:last-child,
-.edit__musicitem:last-child {
+.edit__musicitem:last-child,
+.share__listitem:last-child {
   border-right: 0;
 }
 
 .edit__musicitem {
-  padding: 12px;
   width: calc(100% / 16);
   border-right: 1px solid var(--fgColor);
   cursor: pointer;
 }
 
+.edit__musicitem:hover {
+  background-color: var(--fgColorLighter);
+}
+
 .share__listitem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   padding: 12px;
   width: calc(100% / 2);
@@ -331,10 +365,10 @@ Editing Page
   .SampleCard__container {
     flex-direction: column;
     padding: 14px 20px;
+    gap: 16px;
   }
   .sample-card--top-wrapper {
     width: 100%;
-    margin-bottom: 16px;
   }
   .sample-card__button--wrapper {
     display: flex;
@@ -343,5 +377,18 @@ Editing Page
   }
   .sample-card__title {
     margin-bottom: 12px;
+  }
+  .share__listitem {
+    padding: 4px;
+    font-size: 0.8rem;
+  }
+  .Edit__container {
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+  }
+  .edit__listitem {
+    padding: 4px;
+    font-size: 0.8rem;
   }
 }

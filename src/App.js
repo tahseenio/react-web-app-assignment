@@ -5,6 +5,7 @@ import Header from './components/Header';
 import Home from './pages/Home';
 import Edit from './pages/Edit';
 import Share from './pages/Share';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
           <Route path='/edit/:id' element={<Edit />} />
           <Route path='/share/:id' element={<Share />} />
         </Routes>
-        <footer />
+        <Footer />
       </Router>
     </div>
   );
