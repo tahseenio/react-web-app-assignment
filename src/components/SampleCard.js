@@ -3,10 +3,10 @@
 // import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const SampleCard = ({ title, isInitiallyShared = false }) => {
+const SampleCard = ({ title, lastModified, id, isInitiallyShared = false }) => {
   // const [isShared, setIsShared] = useState(isInitiallyShared);
 
-  const date = new Date();
+  const date = new Date(lastModified);
 
   const time = date
     .toLocaleString('en-US', {
@@ -37,7 +37,7 @@ const SampleCard = ({ title, isInitiallyShared = false }) => {
         {/* {isShared ? (
           <button className='button--outlined button--shared'>Shared</button>
         ) : ( */}
-        <Link to={`/share/${title}`}>
+        <Link to={`/share/${id}`}>
           <button
             className='button--outlined'
             // onClick={() => setIsShared(true)}
@@ -48,7 +48,7 @@ const SampleCard = ({ title, isInitiallyShared = false }) => {
         {/* )} */}
 
         <button className='button--outlined'>Preview</button>
-        <Link to={`/edit/${title}`}>
+        <Link to={`/edit/${id}`}>
           <button className='button button--solid'>Edit</button>
         </Link>
       </div>

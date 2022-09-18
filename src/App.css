@@ -17,14 +17,14 @@
 }
 
 /* TODO: uncomment when testing dark mode */
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --bgColor: #422142;
     --fgColor: #f0c4f0;
     --fgColorLighter: rgba(210, 169, 210, 0.5);
     --headerTextColor: var(--fgColor);
   }
-}
+} */
 
 body {
   font-family: 'Ubuntu', sans-serif;
