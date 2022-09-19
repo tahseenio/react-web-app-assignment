@@ -10,7 +10,7 @@ const Share = () => {
 
   useEffect(() => {
     const API_KEY = '1fSDtAex';
-    const READ_SAMPLES_LINK = `http://wmp.interaction.courses/api/v1/?apiKey=${API_KEY}&mode=read&endpoint=samples`;
+    const READ_SAMPLES_LINK = `https://wmp.interaction.courses/api/v1/?apiKey=${API_KEY}&mode=read&endpoint=samples`;
 
     const fetchSamples = async () => {
       try {
