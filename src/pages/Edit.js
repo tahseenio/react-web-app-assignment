@@ -3,39 +3,31 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import MusicRow from '../components/ui/MusicRow';
+import useFetchData from '../hooks/useFetchData';
 
-const Edit = ({ samples }) => {
+const getInstrument = (instrument) => {
+  switch (instrument) {
+    case 'piano':
+      return 'Piano';
+    case 'french_horn':
+      return 'French Horn';
+    case 'guitar':
+      return 'Guitar';
+    case 'drums':
+      return 'Drums';
+  }
+};
+const Edit = () => {
+  const { id } = useParams();
   const instruments = ['Piano', 'French Horn', 'Guitar', 'Drums'];
 
-  const getInstrument = (instrument) => {
-    switch (instrument) {
-      case 'piano':
-        return 'Piano';
-      case 'french_horn':
-        return 'French Horn';
-      case 'guitar':
-        return 'Guitar';
-      case 'drums':
-        return 'Drums';
-    }
-  };
+  const { samples, name, recordingData, activeInstrum, currentSample } =
+    useFetchData(id);
 
-  const [currentSample, setCurrentSample] = useState([]);
-  const [activeInstrum, setActiveInstrum] = useState('');
-  const [name, setName] = useState('');
-  const [recordingData, setRecordingData] = useState([]);
-
-  const { id } = useParams();
-
-  useEffect(() => {
-    const filteredForSample = samples.filter((elem) => elem.id === id);
-    setCurrentSample(filteredForSample[0]);
-    setName(filteredForSample[0].name);
-    setActiveInstrum(getInstrument(filteredForSample[0].type));
-    setRecordingData(JSON.parse(filteredForSample[0].recording_data));
-  }, [id, samples]);
-
-  console.log();
+  // const [currentSample, setCurrentSample] = useState([]);
+  const [activeInstrum1, setActiveInstrum1] = useState('');
+  // const [name, setName] = useState('');
+  // const [recordingData, setRecordingData] = useState([]);
 
   return (
     <main className='Home__container'>
@@ -57,7 +49,7 @@ const Edit = ({ samples }) => {
                   activeInstrum === el ? 'edit__listitem--active' : ''
                 }`}
                 key={id}
-                onClick={() => setActiveInstrum(el)}
+                onClick={() => setActiveInstrum1(el)}
               >
                 {el}
               </li>

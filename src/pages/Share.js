@@ -2,38 +2,50 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ShareOptions from '../components/ui/ShareOptions';
 
-const Share = ({ samples }) => {
+const Share = () => {
   const { id } = useParams();
   const [name, setName] = useState('');
   const [currentSample, setCurrentSample] = useState([]);
   const [lastModified, setLastModified] = useState('');
 
   useEffect(() => {
-    const filteredForSample = samples.filter((elem) => elem.id === id);
-    console.log(filteredForSample);
-    setCurrentSample(filteredForSample[0]);
-    setName(filteredForSample[0].name);
+    const API_KEY = '1fSDtAex';
+    const READ_SAMPLES_LINK = `http://wmp.interaction.courses/api/v1/?apiKey=${API_KEY}&mode=read&endpoint=samples`;
 
-    const date = new Date(filteredForSample[0].datetime);
-    const time = date
-      .toLocaleString('en-US', {
-        hour: 'numeric',
-        minute: 'numeric',
-        hour12: true,
-      })
-      .replace(' PM', 'pm')
-      .replace(' AM', 'am');
+    const fetchSamples = async () => {
+      try {
+        const promise = await fetch(READ_SAMPLES_LINK);
+        const data = await promise.json();
+        const samples = data.samples;
+        const filteredForSample = samples.filter((elem) => elem.id === id);
+        setCurrentSample(filteredForSample[0]);
+        setName(filteredForSample[0].name);
+        const date = new Date(filteredForSample[0].datetime);
+        const time = date
+          .toLocaleString('en-US', {
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true,
+          })
+          .replace(' PM', 'pm')
+          .replace(' AM', 'am');
 
-    const currDate = date
-      .toLocaleDateString('en-US', {
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric',
-      })
-      .replace(',', '');
+        const currDate = date
+          .toLocaleDateString('en-US', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric',
+          })
+          .replace(',', '');
 
-    setLastModified(`${time} on ${currDate}`);
-  }, [id, samples]);
+        setLastModified(`${time} on ${currDate}`);
+      } catch (err) {
+        console.log(err);
+        setCurrentSample([]);
+      }
+    };
+    fetchSamples();
+  }, [id]);
 
   return (
     <main className='Home__container'>

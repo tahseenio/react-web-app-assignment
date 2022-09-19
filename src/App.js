@@ -6,7 +6,6 @@ import Home from './pages/Home';
 import Edit from './pages/Edit';
 import Share from './pages/Share';
 import Footer from './components/Footer';
-import useFetchData from './hooks/useFetchData';
 
 // const API_LINK = 'http://wmp.interaction.courses/api/v1/';
 
@@ -29,16 +28,14 @@ import useFetchData from './hooks/useFetchData';
 // GET to receive AND POST to send data
 
 function App() {
-  const { samples } = useFetchData();
-
   return (
     <div className='App'>
       <Router>
         <Header />
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/edit/:id' element={<Edit samples={samples} />} />
-          <Route path='/share/:id' element={<Share samples={samples} />} />
+          <Route path='/edit/:id' element={<Edit />} />
+          <Route path='/share/:id' element={<Share />} />
         </Routes>
         <Footer />
       </Router>
