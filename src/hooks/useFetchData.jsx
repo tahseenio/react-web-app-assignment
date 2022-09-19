@@ -70,7 +70,6 @@ const useFetchData = (id) => {
         }
       } catch (err) {
         console.log(err);
-        setSamples([]);
       }
     };
     fetchSamples();

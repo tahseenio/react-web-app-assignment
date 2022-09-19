@@ -24,6 +24,23 @@ const Edit = () => {
     setActiveInstrumForAPI(el.split(' ').join('_').toLowerCase());
   };
 
+  const handleSaveChanges = async () => {
+    // const options = {
+    //   method: 'POST',
+    //   body: '[{"B": [true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false]}, {"A": [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]}, {"G": [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]}, {"F": [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]}, {"E": [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]}, {"D": [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]}, {"C": [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]}]'
+    // };
+
+    // fetch('http://wmp.interaction.courses/api/v1/?apiKey=1fSDtAex&mode=update&endpoint=samples&sampleType=piano&sampleName=Test2Updated&id=248', options)
+    //   .then(response => response.json())
+    //   .then(response => console.log(response))
+    //   .catch(err => console.error(err));
+
+    console.log(
+      `NAME: ${name}, TYPE: ${activeInstrum}, FOR API TYPE: ${activeInstrumForAPI}, id: ${id}`
+    );
+    console.log(JSON.stringify(recordingData));
+  };
+
   return (
     <main className='Home__container'>
       <div className='row'>
@@ -36,7 +53,12 @@ const Edit = () => {
           />
           <div className='sample-card__button--wrapper'>
             <button className='button--outlined'>Preview</button>
-            <button className='button button--solid'>Save</button>
+            <button
+              className='button button--solid'
+              onClick={handleSaveChanges}
+            >
+              Save
+            </button>
           </div>
         </div>
         <div className='edit__row'>
@@ -64,7 +86,6 @@ const Edit = () => {
             setRecordingData={setRecordingData}
           />
         ))}
-        <pre>{`NAME: ${name}, TYPE: ${activeInstrum}, FOR API TYPE: ${activeInstrumForAPI}, id: ${id}`}</pre>
         <pre>{JSON.stringify(recordingData, null, 2)}</pre>
       </div>
     </main>
