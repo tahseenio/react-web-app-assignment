@@ -25,20 +25,24 @@ const Edit = () => {
   };
 
   const handleSaveChanges = async () => {
-    // const options = {
-    //   method: 'POST',
-    //   body: '[{"B": [true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false]}, {"A": [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]}, {"G": [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]}, {"F": [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]}, {"E": [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]}, {"D": [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]}, {"C": [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]}]'
-    // };
-
-    // fetch('http://wmp.interaction.courses/api/v1/?apiKey=1fSDtAex&mode=update&endpoint=samples&sampleType=piano&sampleName=Test2Updated&id=248', options)
-    //   .then(response => response.json())
-    //   .then(response => console.log(response))
-    //   .catch(err => console.error(err));
-
-    console.log(
-      `NAME: ${name}, TYPE: ${activeInstrum}, FOR API TYPE: ${activeInstrumForAPI}, id: ${id}`
-    );
-    console.log(JSON.stringify(recordingData));
+    const options = {
+      method: 'POST',
+      body: `${JSON.stringify(recordingData)}`,
+    };
+    try {
+      const promise = await fetch(
+        `http://wmp.interaction.courses/api/v1/?apiKey=1fSDtAex&mode=update&endpoint=samples&sampleType=${activeInstrumForAPI}&sampleName=${name}&id=${id}`,
+        options
+      );
+      const response = await promise.json();
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+    // console.log(
+    //   `NAME: ${name}, TYPE: ${activeInstrum}, FOR API TYPE: ${activeInstrumForAPI}, id: ${id}`
+    // );
+    // console.log(JSON.stringify(recordingData));
   };
 
   return (
@@ -86,7 +90,6 @@ const Edit = () => {
             setRecordingData={setRecordingData}
           />
         ))}
-        <pre>{JSON.stringify(recordingData, null, 2)}</pre>
       </div>
     </main>
   );

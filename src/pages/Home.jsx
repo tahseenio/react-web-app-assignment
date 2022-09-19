@@ -7,6 +7,7 @@ import useFetchData from '../hooks/useFetchData';
 
 const Home = () => {
   const { samples } = useFetchData();
+  console.log(samples);
   return (
     <main className='Home__container'>
       <div className='row'>
