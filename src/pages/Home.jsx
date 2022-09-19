@@ -17,12 +17,10 @@ const Home = () => {
               title={elem.name}
               key={elem.id}
               id={elem.id}
+              recordingData={JSON.parse(elem.recording_data)}
               lastModified={elem.datetime}
             />
           ))}
-          {/* <SampleCard title={'Hellz Wind Staff'} />
-          <SampleCard title={'C.R.E.A.M'} isInitiallyShared={true} />
-          <SampleCard title={'A Better Tommorow'} /> */}
         </div>
         <CreateCard />
       </div>

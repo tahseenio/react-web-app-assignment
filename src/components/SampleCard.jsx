@@ -1,31 +1,10 @@
 // TODO: review all commented code
 
-// import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { getCorrectFormatDate } from '../hooks/useFetchData';
 
-const SampleCard = ({ title, lastModified, id, isInitiallyShared = false }) => {
-  // const [isShared, setIsShared] = useState(isInitiallyShared);
-
-  const date = new Date(lastModified);
-
-  const time = date
-    .toLocaleString('en-US', {
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: true,
-    })
-    .replace(' PM', 'pm')
-    .replace(' AM', 'am');
-
-  const currDate = date
-    .toLocaleDateString('en-US', {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric',
-    })
-    .replace(',', '');
-
-  const lastDate = `${time} on ${currDate}`;
+const SampleCard = ({ title, lastModified, id, recordingData }) => {
+  const lastDate = getCorrectFormatDate(lastModified);
 
   return (
     <div className='SampleCard__container'>
@@ -47,7 +26,12 @@ const SampleCard = ({ title, lastModified, id, isInitiallyShared = false }) => {
         </Link>
         {/* )} */}
 
-        <button className='button--outlined'>Preview</button>
+        <button
+          className='button--outlined'
+          onClick={() => console.log(recordingData)}
+        >
+          Preview
+        </button>
         <Link to={`/edit/${id}`}>
           <button className='button button--solid'>Edit</button>
         </Link>

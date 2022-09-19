@@ -287,7 +287,6 @@ Editing Page
   display: flex;
   flex-grow: 1;
   list-style-type: none;
-  /* width: 90%; */
   height: 50px;
   border: 2px solid var(--fgColor);
   border-bottom-width: 6px;
