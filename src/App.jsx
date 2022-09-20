@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Edit from './pages/Edit';
 import Share from './pages/Share';
 import Footer from './components/Footer';
+import { toneObject, toneTransport, tonePart } from './data/instruments.js';
 
 // const API_LINK = 'http://wmp.interaction.courses/api/v1/';
 
@@ -33,7 +34,16 @@ function App() {
       <Router>
         <Header />
         <Routes>
-          <Route path='/' element={<Home />} />
+          <Route
+            path='/'
+            element={
+              <Home
+                toneObject={toneObject}
+                toneTransport={toneTransport}
+                tonePart={tonePart}
+              />
+            }
+          />
           <Route path='/edit/:id' element={<Edit />} />
           <Route path='/share/:id' element={<Share />} />
         </Routes>

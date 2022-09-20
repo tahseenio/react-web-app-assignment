@@ -6,6 +6,10 @@ import { getCorrectFormatDate } from '../hooks/useFetchData';
 const SampleCard = ({ title, lastModified, id, recordingData }) => {
   const lastDate = getCorrectFormatDate(lastModified);
 
+  const handlePlay = () => {
+    console.log(recordingData);
+  };
+
   return (
     <div className='SampleCard__container'>
       <div className='sample-card--top-wrapper'>
@@ -26,10 +30,7 @@ const SampleCard = ({ title, lastModified, id, recordingData }) => {
         </Link>
         {/* )} */}
 
-        <button
-          className='button--outlined'
-          onClick={() => console.log(recordingData)}
-        >
+        <button className='button--outlined' onClick={handlePlay}>
           Preview
         </button>
         <Link to={`/edit/${id}`}>
