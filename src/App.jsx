@@ -44,7 +44,16 @@ function App() {
               />
             }
           />
-          <Route path='/edit/:id' element={<Edit />} />
+          <Route
+            path='/edit/:id'
+            element={
+              <Edit
+                toneObject={toneObject}
+                toneTransport={toneTransport}
+                tonePart={tonePart}
+              />
+            }
+          />
           <Route path='/share/:id' element={<Share />} />
         </Routes>
         <Footer />
