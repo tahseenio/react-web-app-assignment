@@ -2,11 +2,14 @@ import { useParams } from 'react-router-dom';
 import ShareOptions from '../components/ui/ShareOptions';
 import useFetchData from '../hooks/useFetchData';
 import useFetchLocations from '../hooks/useFetchLocations';
+import useReadShareLocation from '../hooks/useReadShareLocation';
+// const { sharedLocations } = useReadShareLocation(id);
 
 const Share = () => {
   const { id } = useParams();
   const { name, lastModified } = useFetchData(id);
-  const { locations } = useFetchLocations();
+  const { locations, sharedLocations } = useFetchLocations();
+
   return (
     <main className='Home__container'>
       <div className='row'>
@@ -20,11 +23,15 @@ const Share = () => {
             <button className='button--outlined'>Preview</button>
           </div>
         </div>
-        {locations.map((elem) =>
-          elem.suburb === 'St Lucia' ? (
-            <ShareOptions title={elem.location} key={elem.id} />
-          ) : null
-        )}
+        {locations.map((elem) => (
+          <ShareOptions
+            sampleID={id}
+            locID={elem.id}
+            title={elem.location}
+            key={elem.id}
+            sharedLocations={sharedLocations}
+          />
+        ))}
       </div>
     </main>
   );

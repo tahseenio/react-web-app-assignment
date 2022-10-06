@@ -55,7 +55,9 @@ const useFetchData = (id) => {
         const promise = await fetch(READ_SAMPLES_LINK);
         const data = await promise.json();
         const resolvedSamples = data.samples;
-        setSamples(resolvedSamples);
+        if (resolvedSamples) {
+          setSamples(resolvedSamples);
+        }
         if (id) {
           const filteredForSample = resolvedSamples.filter(
             (elem) => elem.id === id
