@@ -41,17 +41,14 @@
   font-weight: bold;
 }
 
-/*  */
-
-/* TODO: uncomment when testing dark mode */
-/* @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
   :root {
     --bgColor: #422142;
     --fgColor: #f0c4f0;
     --fgColorLighter: rgba(210, 169, 210, 0.5);
     --headerTextColor: var(--fgColor);
   }
-} */
+}
 
 body {
   font-family: 'Ubuntu', sans-serif;
@@ -190,6 +187,7 @@ SampleCard
   color: var(--fgColor);
   border: 3px solid var(--fgColor);
   background-color: var(--bgColor);
+  white-space: nowrap;
 }
 
 .button--outlined:hover {
@@ -208,6 +206,7 @@ SampleCard
 }
 
 .button--solid:hover {
+  color: var(--headerTextColor);
   border: 3px solid var(--purpleColorLighter);
   background-color: var(--purpleColorLighter);
 }

@@ -1,180 +1,12 @@
-// TODO: make music buttons actually click and work
-
-import { useState, useEffect } from 'react';
-import { synth, guitar } from '../data/instruments.js';
+import { useState } from 'react';
 import { samplePayload } from '../data/samplePayload.js';
 import { useNavigate } from 'react-router-dom';
+import { useToneContext } from '../context/ToneContext.js';
+import { Preview, Sequencer } from './Edit.jsx';
 
-const Sequencer = ({
-  toneObject,
-  toneTransport,
-  tonePart,
-  letter,
-  data,
-  recordingData,
-  setRecordingData,
-}) => {
-  let initialSequence = [];
-  data.forEach((barIsEnabled, id) => {
-    return initialSequence.push({
-      barID: id + 1,
-      barEnabled: barIsEnabled,
-    });
-  });
-
-  const [sequence, setSequence] = useState(initialSequence);
-
-  const initialPreviewing = false;
-  const [previewing, setPreviewing] = useState(initialPreviewing);
-
-  useEffect(() => {
-    tonePart.clear();
-    toneTransport.cancel();
-
-    sequence
-      .filter((bar) => bar.barEnabled)
-      .forEach((bar) => {
-        tonePart.add((bar.barID - 1) / 2, 'C3'); // Plays an C note on 3rd octave 0.5s apart
-      });
-
-    toneTransport.schedule((time) => {
-      setPreviewing(false);
-      console.log('Preview stopped automatically.');
-    }, 16 / 2);
-  });
-
-  return (
-    <>
-      <div className='edit__row'>
-        <p className='edit__row--title'>{letter}</p>
-        <ul className='edit__list'>
-          <Bars
-            letter={letter}
-            sequence={sequence}
-            setSequence={setSequence}
-            toneObject={toneObject}
-            recordingData={recordingData}
-            setRecordingData={setRecordingData}
-          />
-        </ul>
-      </div>
-      <Preview
-        previewing={previewing}
-        setPreviewing={setPreviewing}
-        toneObject={toneObject}
-        toneTransport={toneTransport}
-      />
-    </>
-  );
-};
-
-function Bar({
-  barEnabled,
-  handleBarClick,
-  el,
-  id,
-  letter,
-  recordingData,
-  setRecordingData,
-}) {
-  const [isActive, setIsActive] = useState(el);
-
-  const handleBarChange = () => {
-    setIsActive((state) => !state);
-    const newRecordingData = recordingData.map((el) => {
-      if (Object.keys(el)[0] === letter) {
-        let rowArr = el[letter];
-        rowArr[id] = !isActive;
-        return { [letter]: rowArr };
-      } else return el;
-    });
-    setRecordingData(newRecordingData);
-  };
-
-  const handleClick = () => {
-    handleBarClick();
-    handleBarChange();
-  };
-
-  function barSelected() {
-    if (barEnabled) {
-      return 'edit__musicitem--active';
-    }
-    return '';
-  }
-
-  return (
-    <div
-      className={`edit__musicitem ${barSelected()}`}
-      onClick={handleClick}
-    ></div>
-  );
-}
-
-function Bars({
-  sequence,
-  setSequence,
-  toneObject,
-  recordingData,
-  setRecordingData,
-  letter,
-}) {
-  function handleBarClick(bar) {
-    const now = toneObject.now();
-    guitar.triggerAttackRelease('C3', '8n', now);
-    let filteredSequence = sequence.filter((_bar) => _bar.barID !== bar.barID);
-    setSequence([...filteredSequence, { ...bar, barEnabled: !bar.barEnabled }]);
-  }
-
-  function sortSequence(bar, otherBar) {
-    if (bar.barID < otherBar.barID) {
-      return -1;
-    }
-    if (bar.barID > otherBar.barID) {
-      return 1;
-    }
-    return 0;
-  }
-
-  return sequence
-    .sort(sortSequence)
-    .map((bar, id) => (
-      <Bar
-        key={bar.barID}
-        el={bar.barEnabled}
-        {...bar}
-        handleBarClick={() => handleBarClick(bar)}
-        id={id}
-        letter={letter}
-        recordingData={recordingData}
-        setRecordingData={setRecordingData}
-      />
-    ));
-}
-
-function Preview({ previewing, setPreviewing, toneObject, toneTransport }) {
-  function handleButtonClick() {
-    toneObject.start();
-    toneTransport.stop();
-
-    if (previewing) {
-      setPreviewing(false);
-      console.log('Preview stopped manually.');
-    } else {
-      setPreviewing(true);
-      console.log('Preview started.');
-      toneTransport.start();
-    }
-  }
-
-  return (
-    <button className='button--outlined' onClick={handleButtonClick}>
-      {previewing ? 'Stop Previewing' : 'Preview'}
-    </button>
-  );
-}
-
-const Create = ({ toneObject, toneTransport, tonePart }) => {
+const Create = () => {
+  const { toneObject, toneTransport, tonePart, previewing, setPreviewing } =
+    useToneContext();
   const navigate = useNavigate();
   const instruments = ['Piano', 'French Horn', 'Guitar', 'Drums'];
 
@@ -192,10 +24,6 @@ const Create = ({ toneObject, toneTransport, tonePart }) => {
   };
 
   const handleSaveChanges = async () => {
-    if (name === '') {
-      alert('Please add a name');
-      return;
-    }
     const options = {
       method: 'POST',
       body: `${JSON.stringify(recordingData)}`,
@@ -212,11 +40,6 @@ const Create = ({ toneObject, toneTransport, tonePart }) => {
     }
   };
 
-  const handlePlayMusic = () => {
-    toneObject.start();
-    toneTransport.stop();
-  };
-
   return (
     <main className='Home__container'>
       <div className='row'>
@@ -224,14 +47,16 @@ const Create = ({ toneObject, toneTransport, tonePart }) => {
         <div className='Edit__container'>
           <input
             className='edit__input'
-            placeholder='Enter a name'
-            // defaultValue={'Enter a name'}
+            defaultValue={'Enter a name'}
             onChange={(e) => setName(e.target.value)}
           />
           <div className='sample-card__button--wrapper'>
-            <button className='button--outlined' onClick={handlePlayMusic}>
-              Preview
-            </button>
+            <Preview
+              previewing={previewing}
+              setPreviewing={setPreviewing}
+              toneObject={toneObject}
+              toneTransport={toneTransport}
+            />
             <button
               className='button button--solid'
               onClick={handleSaveChanges}
@@ -266,6 +91,7 @@ const Create = ({ toneObject, toneTransport, tonePart }) => {
             data={elem[`${Object.keys(elem)[0]}`]}
             recordingData={recordingData}
             setRecordingData={setRecordingData}
+            activeInstrum={activeInstrum}
           />
         ))}
       </div>

@@ -5,7 +5,6 @@ const ShareOptions = ({ title, sampleID, locID, sharedLocations }) => {
   const [isShared, setIsShared] = useState(false);
   const [checkSharing, setCheckSharing] = useState([]);
   useEffect(() => {
-    // console.log(sharedLocations);
     setCheckSharing(
       sharedLocations.filter(
         (el) => el.samples_id === sampleID && el.locations_id === locID
@@ -15,7 +14,6 @@ const ShareOptions = ({ title, sampleID, locID, sharedLocations }) => {
     if (checkSharing.length >= 1) {
       setIsShared(true);
     }
-    // console.log('FLTERING for', locID, isFoundSharing);
   }, [sharedLocations, locID, sampleID, checkSharing.length]);
 
   const handleWillShareLocation = async () => {

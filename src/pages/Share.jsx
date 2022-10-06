@@ -1,9 +1,13 @@
 import { useParams } from 'react-router-dom';
 import ShareOptions from '../components/ui/ShareOptions';
+import { useToneContext } from '../context/ToneContext';
 import useFetchData from '../hooks/useFetchData';
 import useFetchLocations from '../hooks/useFetchLocations';
+import { Preview } from './Edit';
 
 const Share = () => {
+  const { previewing, setPreviewing, toneObject, toneTransport } =
+    useToneContext();
   const { id } = useParams();
   const { name, lastModified } = useFetchData(id);
   const { locations, sharedLocations } = useFetchLocations();
@@ -18,7 +22,12 @@ const Share = () => {
             <p className='sample-card__date'>{lastModified}</p>
           </div>
           <div className='sample-card__button--wrapper'>
-            <button className='button--outlined'>Preview</button>
+            <Preview
+              previewing={previewing}
+              setPreviewing={setPreviewing}
+              toneObject={toneObject}
+              toneTransport={toneTransport}
+            />
           </div>
         </div>
         {locations.map((elem) => (

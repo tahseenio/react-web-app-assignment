@@ -1,11 +1,13 @@
-// TODO: review all commented code
-
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useToneContext } from '../context/ToneContext';
 import { getCorrectFormatDate } from '../hooks/useFetchData';
+import { Preview } from '../pages/Edit';
 
-const SampleCard = ({ title, lastModified, id, recordingData }) => {
+const SampleCard = ({ title, lastModified, id }) => {
+  const { toneObject, toneTransport } = useToneContext();
+  const [previewing, setPreviewing] = useState(false);
   const [isShared, setIsShared] = useState(false);
   const lastDate = getCorrectFormatDate(lastModified);
   const [sharedLocations, setSharedLocations] = useState([]);
@@ -31,11 +33,7 @@ const SampleCard = ({ title, lastModified, id, recordingData }) => {
     } else {
       setIsShared(false);
     }
-  }, [sharedLocations]);
-
-  const handlePlay = () => {
-    console.log(recordingData);
-  };
+  }, [sharedLocations, id]);
 
   return (
     <div className='SampleCard__container'>
@@ -51,9 +49,15 @@ const SampleCard = ({ title, lastModified, id, recordingData }) => {
             <button className='button--outlined'>Share</button>
           )}
         </Link>
-        <button className='button--outlined' onClick={handlePlay}>
+        <Preview
+          previewing={previewing}
+          setPreviewing={setPreviewing}
+          toneObject={toneObject}
+          toneTransport={toneTransport}
+        />
+        {/* <button className='button--outlined' onClick={handlePlay}>
           Preview
-        </button>
+        </button> */}
         <Link to={`/edit/${id}`}>
           <button className='button button--solid'>Edit</button>
         </Link>

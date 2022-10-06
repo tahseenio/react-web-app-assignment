@@ -1,18 +1,18 @@
-// TODO: make music buttons actually click and work
-
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import useFetchData from '../hooks/useFetchData';
-import { synth, guitar } from '../data/instruments.js';
+import { getTonePart, getToneInstrum } from '../data/instruments.js';
+import { useToneContext } from '../context/ToneContext';
 
-const Sequencer = ({
+export const Sequencer = ({
   toneObject,
   toneTransport,
-  tonePart,
   letter,
   data,
   recordingData,
   setRecordingData,
+  setPreviewing,
+  activeInstrum,
 }) => {
   let initialSequence = [];
   data.forEach((barIsEnabled, id) => {
@@ -24,17 +24,14 @@ const Sequencer = ({
 
   const [sequence, setSequence] = useState(initialSequence);
 
-  const initialPreviewing = false;
-  const [previewing, setPreviewing] = useState(initialPreviewing);
-
   useEffect(() => {
-    tonePart.clear();
+    getTonePart(activeInstrum).clear();
     toneTransport.cancel();
 
     sequence
       .filter((bar) => bar.barEnabled)
       .forEach((bar) => {
-        tonePart.add((bar.barID - 1) / 2, 'C3'); // Plays an C note on 3rd octave 0.5s apart
+        getTonePart(activeInstrum).add((bar.barID - 1) / 2, `${letter}3`);
       });
 
     toneTransport.schedule((time) => {
@@ -49,6 +46,7 @@ const Sequencer = ({
         <p className='edit__row--title'>{letter}</p>
         <ul className='edit__list'>
           <Bars
+            activeInstrum={activeInstrum}
             letter={letter}
             sequence={sequence}
             setSequence={setSequence}
@@ -58,12 +56,6 @@ const Sequencer = ({
           />
         </ul>
       </div>
-      <Preview
-        previewing={previewing}
-        setPreviewing={setPreviewing}
-        toneObject={toneObject}
-        toneTransport={toneTransport}
-      />
     </>
   );
 };
@@ -118,10 +110,11 @@ function Bars({
   recordingData,
   setRecordingData,
   letter,
+  activeInstrum,
 }) {
   function handleBarClick(bar) {
     const now = toneObject.now();
-    guitar.triggerAttackRelease('C3', '8n', now);
+    getToneInstrum(activeInstrum).triggerAttackRelease(`${letter}3`, '8n', now);
     let filteredSequence = sequence.filter((_bar) => _bar.barID !== bar.barID);
     setSequence([...filteredSequence, { ...bar, barEnabled: !bar.barEnabled }]);
   }
@@ -152,7 +145,12 @@ function Bars({
     ));
 }
 
-function Preview({ previewing, setPreviewing, toneObject, toneTransport }) {
+export function Preview({
+  previewing,
+  setPreviewing,
+  toneObject,
+  toneTransport,
+}) {
   function handleButtonClick() {
     toneObject.start();
     toneTransport.stop();
@@ -165,6 +163,11 @@ function Preview({ previewing, setPreviewing, toneObject, toneTransport }) {
       console.log('Preview started.');
       toneTransport.start();
     }
+
+    toneTransport.schedule((time) => {
+      setPreviewing(false);
+      console.log('Preview stopped automatically.');
+    }, 16 / 2);
   }
 
   return (
@@ -174,7 +177,9 @@ function Preview({ previewing, setPreviewing, toneObject, toneTransport }) {
   );
 }
 
-const Edit = ({ toneObject, toneTransport, tonePart }) => {
+const Edit = () => {
+  const { toneObject, toneTransport, tonePart, previewing, setPreviewing } =
+    useToneContext();
   const { id } = useParams();
   const instruments = ['Piano', 'French Horn', 'Guitar', 'Drums'];
 
@@ -200,11 +205,10 @@ const Edit = ({ toneObject, toneTransport, tonePart }) => {
       body: `${JSON.stringify(recordingData)}`,
     };
     try {
-      const promise = await fetch(
+      await fetch(
         `http://wmp.interaction.courses/api/v1/?apiKey=1fSDtAex&mode=update&endpoint=samples&sampleType=${activeInstrumForAPI}&sampleName=${name}&id=${id}`,
         options
       );
-      const response = await promise.json();
     } catch (err) {
       console.log(err);
     }
@@ -214,10 +218,10 @@ const Edit = ({ toneObject, toneTransport, tonePart }) => {
     // console.log(JSON.stringify(recordingData));
   };
 
-  const handlePlayMusic = () => {
-    toneObject.start();
-    toneTransport.stop();
-  };
+  // const handlePlayMusic = () => {
+  //   toneObject.start();
+  //   toneTransport.stop();
+  // };
 
   return (
     <main className='Home__container'>
@@ -230,9 +234,12 @@ const Edit = ({ toneObject, toneTransport, tonePart }) => {
             onChange={(e) => setName(e.target.value)}
           />
           <div className='sample-card__button--wrapper'>
-            <button className='button--outlined' onClick={handlePlayMusic}>
-              Preview
-            </button>
+            <Preview
+              previewing={previewing}
+              setPreviewing={setPreviewing}
+              toneObject={toneObject}
+              toneTransport={toneTransport}
+            />
             <button
               className='button button--solid'
               onClick={handleSaveChanges}
@@ -261,6 +268,7 @@ const Edit = ({ toneObject, toneTransport, tonePart }) => {
         {recordingData.map((elem, id) => (
           <Sequencer
             key={id}
+            activeInstrum={activeInstrum}
             toneObject={toneObject}
             toneTransport={toneTransport}
             tonePart={tonePart}
@@ -268,6 +276,8 @@ const Edit = ({ toneObject, toneTransport, tonePart }) => {
             data={elem[`${Object.keys(elem)[0]}`]}
             recordingData={recordingData}
             setRecordingData={setRecordingData}
+            previewing={previewing}
+            setPreviewing={setPreviewing}
           />
         ))}
       </div>

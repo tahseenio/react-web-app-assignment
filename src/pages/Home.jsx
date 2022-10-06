@@ -1,10 +1,4 @@
-// TODO
-//  make create sample button work
-//  figure out how to add different tones for each music letter
-//  how to make preview buttons work for all pages such as home, share and edit pages
-//  make share page work
-//  grey out share button when shared
-//  usestate of samplePayload is somehow being mutated on load even though it shouldnt be?
+//  TODO Comment all functions as per https://edstem.org/au/courses/8488/discussion/1055864
 
 import CreateCard from '../components/CreateCard';
 import SampleCard from '../components/SampleCard';
