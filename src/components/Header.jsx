@@ -15,7 +15,7 @@ const Header = () => {
         ) : null}
         <h1>OgCiSum</h1>
       </div>
-      <p>Create & Share Sample, Listen in Mobile App!</p>
+      <p>{'Create & Share Sample, Listen in Mobile App!'}</p>
     </header>
   );
 };

@@ -3,6 +3,10 @@ import { useEffect, useState } from 'react';
 const API_KEY = '1fSDtAex';
 const READ_SAMPLES_LINK = `https://wmp.interaction.courses/api/v1/?apiKey=${API_KEY}&mode=read&endpoint=samples`;
 
+/**
+ * Converts UTCDate to format required by assignment
+ *
+ */
 export const getCorrectFormatDate = (UTCDate) => {
   const date = new Date(UTCDate);
   const time = date
@@ -25,7 +29,13 @@ export const getCorrectFormatDate = (UTCDate) => {
   return `${time} on ${currDate}`;
 };
 
+/**
+ * Returns all critical information of a sample such as name, activeInstrument, recording data and various setters for useState
+ */
 const useFetchData = (id) => {
+  /**
+   * Returns the UI friendly instrument name based on the API equivalent instrument name
+   */
   const getInstrument = (instrument) => {
     switch (instrument) {
       case 'piano':
@@ -50,6 +60,9 @@ const useFetchData = (id) => {
   const [lastModified, setLastModified] = useState('');
 
   useEffect(() => {
+    /**
+     * Fetches all sample data and sets state for last modified date, current sample, name, active instrument, recording data
+     */
     const fetchSamples = async () => {
       try {
         const promise = await fetch(READ_SAMPLES_LINK);

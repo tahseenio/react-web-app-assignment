@@ -1,5 +1,3 @@
-//  TODO Comment all functions as per https://edstem.org/au/courses/8488/discussion/1055864
-
 import CreateCard from '../components/CreateCard';
 import SampleCard from '../components/SampleCard';
 import useFetchData from '../hooks/useFetchData';

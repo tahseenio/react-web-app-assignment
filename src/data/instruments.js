@@ -1,13 +1,18 @@
 import * as Tone from 'tone';
 
+/**
+ * Initialise toneObject
+ */
 export const toneObject = Tone;
 
+/**
+ * Creates the toneTransport from toneObject
+ */
 export const toneTransport = toneObject.Transport;
 
-// export const tonePart = new toneObject.Part((time, note) => {
-//   guitar.triggerAttackRelease(note, '8n', time);
-// }, []).start(0);
-
+/**
+ * Array of toneParts for the four different instruments
+ */
 export const tonePart = [
   new toneObject.Part((time, note) => {
     piano.triggerAttackRelease(note, '8n', time);
@@ -23,6 +28,9 @@ export const tonePart = [
   }, []).start(0),
 ];
 
+/**
+ * Function that returns the tonePart based on the instrument selected
+ */
 export const getTonePart = (instrum) => {
   switch (instrum) {
     case 'Piano':
@@ -38,6 +46,9 @@ export const getTonePart = (instrum) => {
   }
 };
 
+/**
+ * Function that returns the instrument notes based on the instrument selected
+ */
 export const getToneInstrum = (instrum) => {
   switch (instrum) {
     case 'Piano':
@@ -53,6 +64,9 @@ export const getToneInstrum = (instrum) => {
   }
 };
 
+/**
+ * Guitar notes for Tone.js
+ */
 export const guitar = new toneObject.Sampler({
   urls: {
     B3: 'B3.mp3',
@@ -67,6 +81,9 @@ export const guitar = new toneObject.Sampler({
   baseUrl: '/samples/guitar-acoustic/',
 }).toDestination();
 
+/**
+ * French Horn notes for Tone.js
+ */
 export const french_horn = new toneObject.Sampler({
   urls: {
     B3: 'F5.mp3',
@@ -81,6 +98,9 @@ export const french_horn = new toneObject.Sampler({
   baseUrl: '/samples/french-horn/',
 }).toDestination();
 
+/**
+ * Piano notes for Tone.js
+ */
 export const piano = new toneObject.Sampler({
   urls: {
     B3: 'B3.mp3',
@@ -95,6 +115,9 @@ export const piano = new toneObject.Sampler({
   baseUrl: '/samples/piano/',
 }).toDestination();
 
+/**
+ * Drum notes for Tone.js
+ */
 export const drums = new toneObject.Sampler({
   urls: {
     B3: 'drums1.mp3',

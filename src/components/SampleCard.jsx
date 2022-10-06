@@ -5,6 +5,12 @@ import { useToneContext } from '../context/ToneContext';
 import { getCorrectFormatDate } from '../hooks/useFetchData';
 import { Preview } from '../pages/Edit';
 
+/**
+ * This is the sample card component which displays the basic info of a sample and buttons which allow the user to share, edit or preview the sample
+ * @property {string} title Name of the location being shared to
+ * @property {string} lastModified The last modified date
+ * @property {number} id The id of a sample
+ */
 const SampleCard = ({ title, lastModified, id }) => {
   const { toneObject, toneTransport } = useToneContext();
   const [previewing, setPreviewing] = useState(false);
@@ -12,6 +18,10 @@ const SampleCard = ({ title, lastModified, id }) => {
   const lastDate = getCorrectFormatDate(lastModified);
   const [sharedLocations, setSharedLocations] = useState([]);
   useEffect(() => {
+    /**
+     * Obtains a list of associatiations between samples and the locations it is shared to from the API.
+     * @async
+     */
     const fetchSamples = async () => {
       try {
         const promise = await fetch(
@@ -27,7 +37,6 @@ const SampleCard = ({ title, lastModified, id }) => {
   }, []);
 
   useEffect(() => {
-    // console.log(sharedLocations);
     if (sharedLocations.some((el) => el.samples_id === id)) {
       setIsShared(true);
     } else {
@@ -55,9 +64,6 @@ const SampleCard = ({ title, lastModified, id }) => {
           toneObject={toneObject}
           toneTransport={toneTransport}
         />
-        {/* <button className='button--outlined' onClick={handlePlay}>
-          Preview
-        </button> */}
         <Link to={`/edit/${id}`}>
           <button className='button button--solid'>Edit</button>
         </Link>

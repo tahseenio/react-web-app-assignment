@@ -1,6 +1,12 @@
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
+/**
+ * This is the share location component which allows the user to share or unshare the sample to whatever location
+ * @property {string} title Name of the location being shared to
+ * @property {number} sampleID The sample ID
+ * @property {number} locID The location ID
+ * @property {Array} sharedLocation An array of all locations currently shared to
+ */
 const ShareOptions = ({ title, sampleID, locID, sharedLocations }) => {
   const [isShared, setIsShared] = useState(false);
   const [checkSharing, setCheckSharing] = useState([]);
@@ -16,6 +22,10 @@ const ShareOptions = ({ title, sampleID, locID, sharedLocations }) => {
     }
   }, [sharedLocations, locID, sampleID, checkSharing.length]);
 
+  /**
+   * Creates association between a sampled and a location using the API
+   * @async
+   */
   const handleWillShareLocation = async () => {
     if (isShared) return;
     await fetch(
@@ -24,6 +34,10 @@ const ShareOptions = ({ title, sampleID, locID, sharedLocations }) => {
     setIsShared(true);
   };
 
+  /**
+   * Deletes association between a sampled and a location using the API
+   * @async
+   */
   const handleDeleteShareLocation = async () => {
     if (!isShared) return;
     await fetch(

@@ -3,10 +3,16 @@ import { useEffect, useState } from 'react';
 const API_KEY = '1fSDtAex';
 const LOCATIONS_LINK = `http://wmp.interaction.courses/api/v1/?apiKey=${API_KEY}&mode=read&endpoint=locations`;
 
+/**
+ * Returns an array of locations that are located in St Lucia as well as the locations that the sample is shared to
+ */
 const useFetchLocations = () => {
   const [locations, setLocations] = useState([]);
   const [sharedLocations, setSharedLocations] = useState([]);
   useEffect(() => {
+    /**
+     * Fetches all location data and sets state for all locations and shared locations.
+     */
     const fetchSamples = async () => {
       try {
         const promise = await fetch(LOCATIONS_LINK);

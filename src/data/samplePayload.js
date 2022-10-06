@@ -1,3 +1,6 @@
+/**
+ * Initial generic array of notes used when creating a sample using the create sample button
+ */
 export const samplePayload = [
   {
     B: [

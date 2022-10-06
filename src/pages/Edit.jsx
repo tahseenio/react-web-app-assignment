@@ -4,6 +4,17 @@ import useFetchData from '../hooks/useFetchData';
 import { getTonePart, getToneInstrum } from '../data/instruments.js';
 import { useToneContext } from '../context/ToneContext';
 
+/**
+ * This is the sequencer component
+ * @property {Object} toneObject toneObject for Tone.js
+ * @property {Object} toneTransport toneTransport for Tone.js
+ * @property {number} letter musical letter that is currently being used
+ * @property {Array} data row data for current letter
+ * @property {Array} recordingData All music data for all letter
+ * @property {useState Setter} setRecordingData set music data for all letter
+ * @property {useState Setter} setPreviewing set preview state of preview button
+ * @property {string} activeInstrum current active instrument
+ */
 export const Sequencer = ({
   toneObject,
   toneTransport,
@@ -60,6 +71,16 @@ export const Sequencer = ({
   );
 };
 
+/**
+ * This is the bar component
+ * @property {boolean} barEnabled if barEnabled show accordingly in UI
+ * @property {function} handleBarClick toneTransport for Tone.js
+ * @property {number} el current active bar
+ * @property {number} id id of sample
+ * @property {string} letter letter of current note
+ * @property {useState Setter} setRecordingData set music data for all letter
+ * @property {Array} recordingData all musical notes and if bar is enabled or disabled
+ */
 function Bar({
   barEnabled,
   handleBarClick,
@@ -70,7 +91,9 @@ function Bar({
   setRecordingData,
 }) {
   const [isActive, setIsActive] = useState(el);
-
+  /**
+   * When bar is clicked and changed, this sets the recordingData to the newest updated array
+   */
   const handleBarChange = () => {
     setIsActive((state) => !state);
     const newRecordingData = recordingData.map((el) => {
@@ -83,11 +106,17 @@ function Bar({
     setRecordingData(newRecordingData);
   };
 
+  /**
+   * Execute handleBarClick and handleBarChange functions
+   */
   const handleClick = () => {
     handleBarClick();
     handleBarChange();
   };
 
+  /**
+   * returns classname which visually shows if bar is selected or not
+   */
   function barSelected() {
     if (barEnabled) {
       return 'edit__musicitem--active';
@@ -103,6 +132,16 @@ function Bar({
   );
 }
 
+/**
+ * This is the bars component
+ * @property {Array} sequence set sequence of Tone.js sound
+ * @property {useState setter} setSequence set the sequence when needed
+ * @property {Object} toneObject toneObject for Tone.js
+ * @property {Array} recordingData all musical notes and if bar is enabled or disabled
+ * @property {string} letter letter of current note
+ * @property {useState Setter} setRecordingData set music data for all letters
+ * @property {string} activeInstrum current active instrument
+ */
 function Bars({
   sequence,
   setSequence,
@@ -112,6 +151,9 @@ function Bars({
   letter,
   activeInstrum,
 }) {
+  /**
+   * Determines correct instrument to play and runs the Tone.js music
+   */
   function handleBarClick(bar) {
     const now = toneObject.now();
     getToneInstrum(activeInstrum).triggerAttackRelease(`${letter}3`, '8n', now);
@@ -119,6 +161,9 @@ function Bars({
     setSequence([...filteredSequence, { ...bar, barEnabled: !bar.barEnabled }]);
   }
 
+  /**
+   * Sorts the sequence
+   */
   function sortSequence(bar, otherBar) {
     if (bar.barID < otherBar.barID) {
       return -1;
@@ -145,12 +190,22 @@ function Bars({
     ));
 }
 
+/**
+ * This is preview button component
+ * @property {boolean} previewing is the music currently being previewed
+ * @property {useState setter} setPreviewing set music being previewed or not
+ * @property {Object} toneObject toneObject for Tone.js
+ * @property {Object} toneTransport toneTransport for Tone.js
+ */
 export function Preview({
   previewing,
   setPreviewing,
   toneObject,
   toneTransport,
 }) {
+  /**
+   * Starts and stops the music when preview button is being clicked
+   */
   function handleButtonClick() {
     toneObject.start();
     toneTransport.stop();
@@ -177,6 +232,14 @@ export function Preview({
   );
 }
 
+/**
+ * This is the Edit page component
+ * @property {boolean} previewing is the music currently being previewed
+ * @property {useState setter} setPreviewing set music being previewed or not
+ * @property {Object} toneObject toneObject for Tone.js
+ * @property {Object} toneTransport toneTransport for Tone.js
+ * @property {Object} tonePart tonePart for Tone.js
+ */
 const Edit = () => {
   const { toneObject, toneTransport, tonePart, previewing, setPreviewing } =
     useToneContext();
@@ -194,11 +257,17 @@ const Edit = () => {
     setActiveInstrumForAPI,
   } = useFetchData(id);
 
+  /**
+   * Function converts user friendly name of instrument to naming convention used by API
+   */
   const handleInstrumChange = (el) => {
     setActiveInstrum(el);
     setActiveInstrumForAPI(el.split(' ').join('_').toLowerCase());
   };
 
+  /**
+   * Creates a new sample and saves the recording data to the API.
+   */
   const handleSaveChanges = async () => {
     const options = {
       method: 'POST',
@@ -212,17 +281,7 @@ const Edit = () => {
     } catch (err) {
       console.log(err);
     }
-    // console.log(
-    //   `NAME: ${name}, TYPE: ${activeInstrum}, FOR API TYPE: ${activeInstrumForAPI}, id: ${id}`
-    // );
-    // console.log(JSON.stringify(recordingData));
   };
-
-  // const handlePlayMusic = () => {
-  //   toneObject.start();
-  //   toneTransport.stop();
-  // };
-
   return (
     <main className='Home__container'>
       <div className='row'>

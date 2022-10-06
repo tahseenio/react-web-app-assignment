@@ -9,20 +9,22 @@ const Create = () => {
     useToneContext();
   const navigate = useNavigate();
   const instruments = ['Piano', 'French Horn', 'Guitar', 'Drums'];
-
-  // const [samples, setSamples] = useState([]);
   const [name, setName] = useState('');
-
   const [recordingData, setRecordingData] = useState(samplePayload);
-  // const [currentSample, setCurrentSample] = useState([]);
   const [activeInstrum, setActiveInstrum] = useState('Piano');
   const [activeInstrumForAPI, setActiveInstrumForAPI] = useState('piano');
 
+  /**
+   * Function converts user friendly name of instrument to naming convention used by API
+   */
   const handleInstrumChange = (el) => {
     setActiveInstrum(el);
     setActiveInstrumForAPI(el.split(' ').join('_').toLowerCase());
   };
 
+  /**
+   * Creates a new sample and saves the recording data to the API.
+   */
   const handleSaveChanges = async () => {
     const options = {
       method: 'POST',
