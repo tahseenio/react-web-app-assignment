@@ -2,8 +2,6 @@ import { useParams } from 'react-router-dom';
 import ShareOptions from '../components/ui/ShareOptions';
 import useFetchData from '../hooks/useFetchData';
 import useFetchLocations from '../hooks/useFetchLocations';
-import useReadShareLocation from '../hooks/useReadShareLocation';
-// const { sharedLocations } = useReadShareLocation(id);
 
 const Share = () => {
   const { id } = useParams();

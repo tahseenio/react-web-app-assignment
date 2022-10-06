@@ -205,7 +205,6 @@ const Edit = ({ toneObject, toneTransport, tonePart }) => {
         options
       );
       const response = await promise.json();
-      console.log(response);
     } catch (err) {
       console.log(err);
     }

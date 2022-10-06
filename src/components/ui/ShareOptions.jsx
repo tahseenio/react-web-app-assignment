@@ -28,7 +28,6 @@ const ShareOptions = ({ title, sampleID, locID, sharedLocations }) => {
 
   const handleDeleteShareLocation = async () => {
     if (!isShared) return;
-    console.log('WANT TO DELETE ENDPOINT:', checkSharing[0].id);
     await fetch(
       `http://wmp.interaction.courses/api/v1/?apiKey=1fSDtAex&mode=delete&endpoint=samples_to_locations&id=${checkSharing[0].id}`
     );

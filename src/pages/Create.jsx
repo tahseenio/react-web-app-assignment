@@ -192,6 +192,10 @@ const Create = ({ toneObject, toneTransport, tonePart }) => {
   };
 
   const handleSaveChanges = async () => {
+    if (name === '') {
+      alert('Please add a name');
+      return;
+    }
     const options = {
       method: 'POST',
       body: `${JSON.stringify(recordingData)}`,
